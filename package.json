@@ -9,6 +9,7 @@
       "url": "https://github.com/wellsjo/LeapMotion-Hue-Controller.git"
   },
   "dependencies": {
-    "node-hue-api": "*"
+    "node-hue-api": "*",
+    "leapjs": "*"
   }
 }
