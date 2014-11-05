@@ -10,6 +10,7 @@
   },
   "dependencies": {
     "node-hue-api": "*",
-    "leapjs": "*"
+    "leapjs": "*",
+    "leapjs-plugins": "*"
   }
 }
