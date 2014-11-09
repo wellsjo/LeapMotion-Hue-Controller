@@ -25,5 +25,9 @@ module.exports = {
             // unlock the lights after they have been set
             locked = false;
         });
+        api.setLightState(2, state, function() {
+            // unlock the lights after they have been set
+            locked = false;
+        });
     }
 };
