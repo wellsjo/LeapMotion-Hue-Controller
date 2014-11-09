@@ -1,3 +1,3 @@
 #!/bin/bash
 
-node app/main.js
+node ./app/main.js
