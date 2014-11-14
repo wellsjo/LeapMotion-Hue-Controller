@@ -1,8 +1,7 @@
 var lights = require('./lights'),
-    leap = require('leapjs');
+leap = require('leapjs');
 
 var controller = new leap.Controller();
-var initialized = false;
 var lightSetInterval;
 var updatingLights = false;
 
@@ -19,7 +18,7 @@ var state = {
 controller.on('frame', function(frame) {
 
     // if a hand is detected
-    if (frame.hands[0]) {
+    if (frame.hands[0] && lights.areReady()) {
 
         // get the current hand (x,y) coordinates
         var pos = frame.hands[0].palmPosition;
