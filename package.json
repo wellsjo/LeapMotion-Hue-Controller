@@ -11,6 +11,8 @@
   "dependencies": {
     "node-hue-api": "*",
     "leapjs": "*",
-    "leapjs-plugins": "*"
+    "leapjs-plugins": "*",
+    "request": "*",
+    "sleep": "*"
   }
 }
