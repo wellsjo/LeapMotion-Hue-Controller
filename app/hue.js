@@ -11,7 +11,8 @@ module.exports = {
         this.username = username;
     },
 
-    cacheLightIds: function(lights) {
+    // just save the lights, so we know how to update them
+    cacheLights: function(lights) {
         this.lights = lights;
     },
 
@@ -44,6 +45,7 @@ module.exports = {
         });
     },
 
+    // used to control whether the light can be updated or not
     lock: false,
 
     updateLights: function(state) {
@@ -58,10 +60,10 @@ module.exports = {
         var that = this;
 
         // loop through the lights and set them individually
-        for (var i = 0; i < this.lights.length; i++) {
-            this.setLight(this.lights[i], state, function() {
+        for (var i = 0; i < Object.keys(this.lights).length; i++) {
+            this.setLight(Object.keys(this.lights)[i], state, function() {
                 // on the last iteration, release the lock so the lights can be updated again
-                if (i === that.lights.length) {
+                if (i === Object.keys(that.lights).length) {
                     that.lock = false;
                 }
             });
@@ -78,22 +80,5 @@ module.exports = {
         }, function() {
             callback();
         });
-    },
-
-    createRequest: function(endpoint, type, body, callback) {
-
-        var url = 'http://' + this.hostname + '/api/' + endpoint;
-
-        if (type === 'GET') {
-            request(url, function(error, response, body) {
-                callback(error, response, body);
-            });
-        }
-
-        if (type === 'PUT') {
-            request.put(url, body, function(error, response, body) {
-                callback(error, response, body);
-            });
-        }
     }
 };
