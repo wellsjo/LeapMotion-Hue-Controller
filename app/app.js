@@ -7,15 +7,17 @@ var app = {
     defaults: {
         UNAUTHORIZED_USER_MESSAGE: 'unauthorized user',
         LINK_BUTTON_MESSAGE:'link button not pressed',
-        hostname: '192.168.1.6',
+        hostname: null,
         username: 'wells-api-user',
     },
 
     lights: null,
 
     init: function() {
-        hue.setDevice(app.defaults.hostname, app.defaults.username);
-        app.authorizeUser();
+        hue.findBridge(function(hostname) {
+            hue.setDevice(hostname, app.defaults.username);
+            app.authorizeUser();
+        });
     },
 
     authorizeUser: function() {
@@ -31,7 +33,7 @@ var app = {
     },
 
     connectToBridge: function() {
-        hue.registerUser(function(error, response, body) {
+        hue.registerApp(function(error, response, body) {
             if (error) throw error;
             if (body[0].error && body[0].error.description === app.defaults.LINK_BUTTON_MESSAGE) {
                 console.log('Press link button.');
