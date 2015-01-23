@@ -1,7 +1,6 @@
-var request = require('request'),
-hueapi = require('node-hue-api');
+var request = require('request');
 
-module.exports = {
+var hue = {
 
     hostname: null,
     username: null,
@@ -9,33 +8,17 @@ module.exports = {
 
     // utilize both bridge search strategies to find the ip address of the bridge
     findBridge: function(callback) {
-        this.nupnpSearch(function(result) {
-            if (result[0].ipaddress) {
-                console.log(result);
-                this.hostname = result[0].ipaddress;
-                callback(this.hostname);
-            } else {
-                this.upnpSearch(5000, function(result) {
-                    this.hostname = result[0].ipaddress;
-                    callback(this.hostname);
-                });
-            }
-        });
+
     },
 
     // better bridge search function that uses someone elses implementation
     nupnpSearch: function(callback) {
-        hueapi.nupnpSearch(function(error, result) {
-            if (error) throw error;
-            callback(result);
-        });
+
     },
 
     // second priority search function that uses someone elses implementation
     upnpSearch: function(timeout, callback) {
-        hueapi.upnpSearch(timeout).then(function(result) {
-            callback(result);
-        }).done();
+
     },
 
     // set the username and hostname to make calls to the api
@@ -52,7 +35,10 @@ module.exports = {
     // get info on the hue setup
     getInfo: function(callback) {
         var url = 'http://' + this.hostname + '/api/' + this.username;
-        request({url: url}, function(error, response, body) {
+        request({
+            url: url,
+            rejectUnauthorized: false,
+        }, function(error, response, body) {
             callback(error, response, body);
         });
     },
