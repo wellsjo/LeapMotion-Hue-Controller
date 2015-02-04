@@ -1,4 +1,5 @@
-var request = require('request');
+var request = require('request'),
+hueApi = require('node-hue-api');
 
 var hue = {
 
@@ -8,7 +9,12 @@ var hue = {
 
     // utilize both bridge search strategies to find the ip address of the bridge
     findBridge: function(callback) {
-
+        hueApi.nupnpSearch(function(error, bridge) {
+            if (bridge) callback(bridge);
+            hueApi.upnpSearch(3000).then(function(bridge) {
+                callback(bridge);
+            }).done();
+        });
     },
 
     // better bridge search function that uses someone elses implementation
@@ -80,6 +86,14 @@ var hue = {
 
         // lol, javascript
         var that = this;
+
+        // show a message
+        // if (typeof state.on !== 'undefined' && state.on) {
+        //     app.show('Turning lights on...');
+        // }
+        // if (typeof state.on !== 'undefined' && !state.on) {
+        //     app.show('Turning lights off...');
+        // }
 
         // loop through the lights and set them individually
         for (var i = 0; i < Object.keys(this.lights).length; i++) {
