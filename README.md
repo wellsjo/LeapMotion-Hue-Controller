@@ -18,3 +18,6 @@ npm install
 ```
 
 And there you have it!  Control the brightness by moving your hand up and down, and the color by moving your hand from left to right.  You can turn the lights off by moving your hand down.  To hold a color, just pull your hand out of the LeapMotion's field of view.
+
+##License
+MIT
